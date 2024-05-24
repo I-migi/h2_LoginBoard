@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쇼핑몰</title>
+    <style>
+        .product {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .product-info {
+            display: flex;
+            align-items: center;
+        }
+        .product-info img {
+            max-width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .product-actions {
+            margin-left: auto;
+        }
+        .action-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .action-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>쇼핑몰</h1>
+<div>
+    <div th:if="${session.member != null}">
+        <p th:text="'환영합니다' + ${session.member.name}+'님!'"></p>
+    </div>
+</div>
+<div th:if="${#lists.isEmpty(products)}" >
+    게시물이 없습니다.
+</div>
+<div th:each="product: ${products}" class="product">
+    <div class="product-info">
+        <div>
+            <h2 th:text="${product.name}">상품명</h2>
+            <p th:text="'가격: ' + ${product.price}">가격</p>
+        </div>
+        <div class="product-actions">
+            <button class="action-button" th:onclick="|location.href=${product.id}+'@{/edit}'|">수정</button>
+            <button class="action-button" th:onclick="|location.href='@{/delete/}' + ${product.id}|">삭제</button>
+        </div>
+    </div>
+</div>
+<button th:onclick="|location.href='@{/addProduct}'|">상품 추가</button>
+</body>
+</html>
